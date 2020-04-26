@@ -17,10 +17,10 @@ app.get("/", (_, res) => res.sendFile(`${process.cwd()}/views/index.html`));
 // upload a single file, for other types check multer's documentation
 app.post("/api/fileanalyse", upload.single("upfile"), (req, res) => {
   // using aliases with JavaScript Destructuring
-  const { originalname: name, mimetype: type, size } = req.file;
+  const { originalname: name, size } = req.file;
 
   // return the data in the required format
-  res.json({ name, type, size });
+  res.json({ name, size });
 });
 
 // handle inexistent routes
