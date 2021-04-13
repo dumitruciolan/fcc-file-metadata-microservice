@@ -1,11 +1,9 @@
-"use strict";
-
 // basic configuration
-const express = require("express"),
-  multer = require("multer"),
+const multer = require("multer"),
+  upload = multer({ dest: "uploads/" }),
+  express = require("express"),
   cors = require("cors"),
-  app = express(),
-  upload = multer({ dest: "uploads/" });
+  app = express();
 
 app.use("/public", express.static(`${process.cwd()}/public`));
 // enable CORS so the API is remotely testable
@@ -17,10 +15,10 @@ app.get("/", (_, res) => res.sendFile(`${process.cwd()}/views/index.html`));
 // upload a single file, for other types check multer's documentation
 app.post("/api/fileanalyse", upload.single("upfile"), (req, res) => {
   // using aliases with JavaScript Destructuring
-  const { originalname: name, size } = req.file;
+  const { originalname: name, mimetype: type, size } = req.file;
 
   // return the data in the required format
-  res.json({ name, size });
+  res.json({ name, type, size });
 });
 
 // handle inexistent routes
